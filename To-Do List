@@ -1,0 +1,103 @@
+class Task:
+  def __init__(self, title, description="", done=False):
+    self.title = title
+    self.description = description
+    self.done = done
+
+tasks = []
+
+def load_tasks():
+  """Attempts to load tasks from a file (tasks.txt) if it exists."""
+  try:
+    with open("tasks.txt", "r") as file:
+      for line in file:
+        title, description, done = line.strip().split(",")
+        tasks.append(Task(title, description, done == "True"))
+  except FileNotFoundError:
+    pass 
+
+def save_tasks():
+  """Saves tasks to a file (tasks.txt)."""
+  with open("tasks.txt", "w") as file:
+    for task in tasks:
+      file.write(f"{task.title},{task.description},{task.done}\n")
+
+def list_tasks():
+  """Displays all tasks with numbering and completion status."""
+  if not tasks:
+    print("There are no tasks in your list.")
+    return
+  for i, task in enumerate(tasks):
+    done_marker = "✅" if task.done else "❌"
+    print(f"{i+1}. {done_marker} {task.title}")
+
+def add_task():
+  """Prompts user for details and adds a new task."""
+  title = input("Enter task title: ")
+  description = input("Enter task description (optional): ")
+  tasks.append(Task(title, description))
+  print("Task added successfully!")
+
+def mark_task_done():
+  """Allows marking a task as done."""
+  list_tasks()  
+  if not tasks:
+    return
+  try:
+    choice = int(input("Enter the number of the task to mark done: ")) - 1
+    if 0 <= choice < len(tasks):
+      tasks[choice].done = True
+      print("Task marked done successfully!")
+    else:
+      print("Invalid task number.")
+  except ValueError:
+    print("Invalid input. Please enter a number.")
+
+def delete_task():
+  """Allows deleting a task."""
+  list_tasks()  
+  if not tasks:
+    return
+  try:
+    choice = int(input("Enter the number of the task to delete: ")) - 1
+    if 0 <= choice < len(tasks):
+      del tasks[choice]
+      print("Task deleted successfully!")
+    else:
+      print("Invalid task number.")
+  except ValueError:
+    print("Invalid input. Please enter a number.")
+
+
+def main_menu():
+  """Displays the main menu and handles user choices."""
+  while True:
+    print("\n--- To-Do List ---")
+    print("1. List Tasks")
+    print("2. Add Task")
+    print("3. Mark Task Done")
+    print("4. Delete Task")
+    print("5. Save and Exit")
+    choice = input("Enter your choice: ")
+
+    if choice == '1':
+      list_tasks()
+    elif choice == '2':
+      add_task()
+    elif choice == '3':
+      mark_task_done()
+    elif choice == '4':
+      delete_task()
+    elif choice == '5':
+      save_tasks()
+      break
+    else:
+      print("Invalid choice. Please try again.")
+
+
+load_tasks()
+
+
+main_menu()
+
+print("Exiting To-Do List...")
