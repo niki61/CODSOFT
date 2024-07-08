@@ -1,0 +1,55 @@
+def add(num1, num2):
+  """Adds two numbers and returns the result."""
+  return num1 + num2
+
+def subtract(num1, num2):
+  """Subtracts two numbers and returns the result."""
+  return num1 - num2
+
+def multiply(num1, num2):
+  """Multiplies two numbers and returns the result."""
+  return num1 * num2
+
+def divide(num1, num2):
+  """Divides two numbers and returns the result. Handles division by zero error."""
+  if num2 == 0:
+    return "Error: Cannot divide by zero."
+  else:
+    return num1 / num2
+
+while True:
+  
+  try:
+    num1 = float(input("Enter the first number: "))
+    num2 = float(input("Enter the second number: "))
+  except ValueError:
+    print("Invalid input. Please enter numbers only.")
+    continue
+
+  
+  operation = input("""
+Choose operation (enter q to quit):
+1. Add
+2. Subtract
+3. Multiply
+4. Divide
+""")
+
+  
+  if operation.lower() == 'q':
+    break
+  elif operation == '1':
+    result = add(num1, num2)
+  elif operation == '2':
+    result = subtract(num1, num2)
+  elif operation == '3':
+    result = multiply(num1, num2)
+  elif operation == '4':
+    result = divide(num1, num2)
+  else:
+    result = "Invalid operation choice."
+
+  
+  print(f"Result: {result}")
+
+print("Calculator closed.")
